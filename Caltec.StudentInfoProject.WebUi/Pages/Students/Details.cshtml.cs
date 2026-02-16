@@ -13,8 +13,8 @@ namespace Caltec.StudentInfoProject.WebUi.Pages.Students
         }
      
 
-      public StudentDto Student { get; set; }
-        public List<SchoolFeesDto> SchoolFees { get; set; }
+        public StudentDto Student { get; set; } = default!;
+        public List<SchoolFeesDto> SchoolFees { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -23,13 +23,7 @@ namespace Caltec.StudentInfoProject.WebUi.Pages.Students
                 return NotFound();
             }
 
-            var student = await _service.GetOne(id.Value, CancellationToken.None);
-            
-            if (student == null)
-            {
-                return NotFound();
-            }
-            Student = student;
+            Student = await _service.GetOne(id.Value, CancellationToken.None);
             SchoolFees = await _schoolFeesService.GetSchoolFeesDtosByStudentIdAsync(id.Value, CancellationToken.None);
             return Page();
         }

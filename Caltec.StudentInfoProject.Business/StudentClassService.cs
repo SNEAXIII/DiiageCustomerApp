@@ -16,7 +16,7 @@ namespace Caltec.StudentInfoProject.Business
             {
                 Id = s.Id,
                 Name = s.Name,
-                Degree = s.Degree.Name,
+                Degree = s.Degree != null ? s.Degree.Name : null,
                 Description = s.Description
 
             }).ToListAsync(cancellationToken);

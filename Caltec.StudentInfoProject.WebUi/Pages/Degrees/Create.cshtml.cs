@@ -19,7 +19,7 @@ namespace Caltec.StudentInfoProject.WebUi.Pages.Degrees
         }
 
         [BindProperty]
-        public Degree Degree { get; set; }
+        public Degree Degree { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD

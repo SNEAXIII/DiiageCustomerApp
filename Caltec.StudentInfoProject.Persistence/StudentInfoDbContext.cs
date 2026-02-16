@@ -13,10 +13,10 @@ namespace Caltec.StudentInfoProject.Persistence
         {
         }
 
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Degree> Degrees { get; set; }
-        public DbSet<StudentClass> StudentClasses { get; set; }
-        public DbSet<SchoolFees> SchoolFees { get; set; }
+        public DbSet<Student> Students { get; set; } = null!;
+        public DbSet<Degree> Degrees { get; set; } = null!;
+        public DbSet<StudentClass> StudentClasses { get; set; } = null!;
+        public DbSet<SchoolFees> SchoolFees { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

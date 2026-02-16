@@ -13,20 +13,22 @@ namespace Caltec.StudentInfoProject.Business
 
         public async Task<List<SchoolFeesDto>> GetSchoolFeesDtosByStudentIdAsync(long studentId, CancellationToken cancellationToken)
         {
-            return await StudentInfoDbContext.SchoolFees.Where(s => s.Student.Id == studentId).Select(s => new SchoolFeesDto()
-            {
-                Id = s.Id,
-                Amount = s.Amount,
-                PaymentDate = s.PaymentDate,
-                PaymentMethod = s.PaymentMethod,
-                PaymentNote = s.PaymentNote,
-                PaymentReference = s.PaymentReference,
-                PaymentStatus = s.PaymentStatus,
-                ClassId = s.Class.Id,
-                ClassName = s.Class.Name,
-                StudentId = s.Student.Id,
-                StudentName = s.Student.FirstName + " " + s.Student.LastName
-            }).ToListAsync(cancellationToken);
+            return await StudentInfoDbContext.SchoolFees
+                .Where(s => s.Student != null && s.Class != null && s.Student.Id == studentId)
+                .Select(s => new SchoolFeesDto()
+                {
+                    Id = s.Id,
+                    Amount = s.Amount,
+                    PaymentDate = s.PaymentDate,
+                    PaymentMethod = s.PaymentMethod,
+                    PaymentNote = s.PaymentNote,
+                    PaymentReference = s.PaymentReference,
+                    PaymentStatus = s.PaymentStatus,
+                    ClassId = s.Class!.Id,
+                    ClassName = s.Class.Name,
+                    StudentId = s.Student!.Id,
+                    StudentName = (s.Student.FirstName ?? string.Empty) + " " + (s.Student.LastName ?? string.Empty)
+                }).ToListAsync(cancellationToken);
         }
 
         public async Task<SchoolFeesDto> GetOneAsync(long schoolFeeId, CancellationToken cancellationToken)
@@ -38,6 +40,10 @@ namespace Caltec.StudentInfoProject.Business
             if (schoolFee == null)
             {
                 throw new NotFoundException("School Fee not found");
+            }
+            if (schoolFee.Student == null || schoolFee.Class == null)
+            {
+                throw new NotFoundException("School Fee is not correctly linked to student/class");
             }
 
             return new SchoolFeesDto()

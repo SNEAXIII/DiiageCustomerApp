@@ -15,7 +15,7 @@ namespace Caltec.StudentInfoProject.WebUi.Pages.Degrees
         }
 
         [BindProperty]
-      public Degree Degree { get; set; }
+        public Degree Degree { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {

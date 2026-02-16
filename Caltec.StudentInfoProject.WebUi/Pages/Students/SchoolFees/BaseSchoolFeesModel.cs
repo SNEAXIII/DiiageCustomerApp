@@ -56,6 +56,10 @@ namespace Caltec.StudentInfoProject.WebUi.Pages.Students.SchoolFees
             }
             else
             {
+                if (!studentId.HasValue)
+                {
+                    throw new ArgumentNullException(nameof(studentId));
+                }
                 Student = await _service.GetOne(studentId.Value, CancellationToken.None);
             }
 

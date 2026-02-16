@@ -12,20 +12,18 @@ namespace Caltec.StudentInfoProject.WebUi.Pages.Students
         }
 
         [BindProperty]
-      public StudentDto Student { get; set; }
+        public StudentDto Student { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
-            var student = await _service.GetOne(id.Value, CancellationToken.None);
-
-            if (student == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                Student = student;
-            }
+
+            var student = await _service.GetOne(id.Value, CancellationToken.None);
+
+            Student = student;
             return Page();
         }
 

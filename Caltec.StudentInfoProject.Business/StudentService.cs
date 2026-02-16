@@ -14,14 +14,17 @@ namespace Caltec.StudentInfoProject.Business
 
         public async Task<List<StudentDto>> GetStudentsAsync(CancellationToken cancellationToken)
         {
-            var students = await StudentInfoDbContext.Students.Include(x => x.Class).ToListAsync(cancellationToken);
+            var students = await StudentInfoDbContext.Students
+                .Include(x => x.Class)
+                .Where(x => x.Class != null)
+                .ToListAsync(cancellationToken);
 
             var result = students.Select(s => new StudentDto()
             {
                 Id = s.Id,
                 Address = s.Address,
                 City = s.City,
-                ClassId = s.Class.Id,
+                ClassId = s.Class!.Id,
                 Country = s.FirstName,
                 Email = s.Email,
                 FirstName = s.FirstName,
@@ -34,12 +37,14 @@ namespace Caltec.StudentInfoProject.Business
             foreach (var student in result)
             {
                 var studentClass = await StudentInfoDbContext.StudentClasses.FindAsync(student.ClassId);
-                student.ClassName = studentClass.Name;
+                student.ClassName = studentClass?.Name;
             }
 
             foreach (var student in result)
             {
-                student.SumOfFees = StudentInfoDbContext.SchoolFees.Where(x => x.Student.Id == student.Id).Sum(x => x.Amount);
+                student.SumOfFees = StudentInfoDbContext.SchoolFees
+                    .Where(x => x.Student != null && x.Student.Id == student.Id)
+                    .Sum(x => x.Amount);
             }
 
             return result;
@@ -70,9 +75,14 @@ namespace Caltec.StudentInfoProject.Business
 
         public async Task<StudentDto> InsertSpecialStudent(StudentDto StudentToInsert, CancellationToken cancellationToken)
         {
-            var query = $"INSERT INTO Students (FirstName, LastName) VALUES ('{StudentToInsert.FirstName}', '{StudentToInsert.LastName}')";
-
-            StudentInfoDbContext.Database.ExecuteSqlRaw(query);
+            await StudentInfoDbContext.Database.ExecuteSqlRawAsync(
+                "INSERT INTO Students (FirstName, LastName) VALUES ({0}, {1})",
+                parameters: new List<object>
+                {
+                    StudentToInsert.FirstName ?? string.Empty,
+                    StudentToInsert.LastName ?? string.Empty
+                },
+                cancellationToken: cancellationToken);
 
             return new StudentDto
             {

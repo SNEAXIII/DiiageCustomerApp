@@ -33,7 +33,7 @@ namespace Caltec.StudentInfoProject.Business.Tests
             return serviceCollection.BuildServiceProvider();
         }
 
-        public T GetService<T>()
+        public T GetService<T>() where T : notnull
         {
             return _serviceProvider.GetRequiredService<T>();
         }

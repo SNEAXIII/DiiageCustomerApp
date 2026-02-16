@@ -55,9 +55,9 @@ app.UseCaltechDependency();
 app.Run();
 
 
-static void CreateDbIfNotExists(WebApplication? host)
+static void CreateDbIfNotExists(WebApplication host)
 {
-    using (var scope = host?.Services.CreateScope())
+    using (var scope = host.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
         try
