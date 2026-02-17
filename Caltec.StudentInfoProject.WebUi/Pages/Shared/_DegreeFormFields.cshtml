@@ -1,0 +1,22 @@
+@model Caltec.StudentInfoProject.Domain.Degree
+
+<div class="form-group">
+    <label asp-for="Name" for="Degree_Name" class="control-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="NbYear" for="Degree_NbYear" class="control-label"></label>
+    <input asp-for="NbYear" class="form-control" />
+    <span asp-validation-for="NbYear" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="FeesPerYearPerStudent" for="Degree_FeesPerYearPerStudent" class="control-label"></label>
+    <input asp-for="FeesPerYearPerStudent" class="form-control" />
+    <span asp-validation-for="FeesPerYearPerStudent" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="NbPayment" for="Degree_NbPayment" class="control-label"></label>
+    <input asp-for="NbPayment" class="form-control" />
+    <span asp-validation-for="NbPayment" class="text-danger"></span>
+</div>

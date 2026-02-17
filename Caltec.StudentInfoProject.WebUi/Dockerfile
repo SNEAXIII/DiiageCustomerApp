@@ -1,28 +1,34 @@
-# Consultez https://aka.ms/customizecontainer pour savoir comment personnaliser votre conteneur de débogage et comment Visual Studio utilise ce Dockerfile pour générer vos images afin d’accélérer le débogage.
-
-# Cet index est utilisé lors de l’exécution à partir de VS en mode rapide (par défaut pour la configuration de débogage)
+# Base runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
 
-
-# Cette phase est utilisée pour générer le projet de service
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Caltec.StudentInfoProject.WebUi/Caltec.StudentInfoProject.WebUi.csproj", "Caltec.StudentInfoProject.WebUi/"]
-COPY ["Caltec.StudentInfoProject.Business/Caltec.StudentInfoProject.Business.csproj", "Caltec.StudentInfoProject.Business/"]
-COPY ["Caltec.StudentInfoProject.Persistence/Caltec.StudentInfoProject.Persistence.csproj", "Caltec.StudentInfoProject.Persistence/"]
-COPY ["./Caltec.StudentInfoProject.Domain/Caltec.StudentInfoProject.Domain.csproj", "Caltec.StudentInfoProject.Domain/"]
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+COPY --chown=appuser:appgroup ["Caltech.StudentInfoProject.sln", "./"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.WebUi/Caltec.StudentInfoProject.WebUi.csproj", "Caltec.StudentInfoProject.WebUi/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Business/Caltec.StudentInfoProject.Business.csproj", "Caltec.StudentInfoProject.Business/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Persistence/Caltec.StudentInfoProject.Persistence.csproj", "Caltec.StudentInfoProject.Persistence/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Domain/Caltec.StudentInfoProject.Domain.csproj", "Caltec.StudentInfoProject.Domain/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Common/Caltec.StudentInfoProject.Common.csproj", "Caltec.StudentInfoProject.Common/"]
+USER appuser
 RUN dotnet restore "./Caltec.StudentInfoProject.WebUi/Caltec.StudentInfoProject.WebUi.csproj"
-COPY . .
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.WebUi/", "Caltec.StudentInfoProject.WebUi/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Business/", "Caltec.StudentInfoProject.Business/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Persistence/", "Caltec.StudentInfoProject.Persistence/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Domain/", "Caltec.StudentInfoProject.Domain/"]
+COPY --chown=appuser:appgroup ["Caltec.StudentInfoProject.Common/", "Caltec.StudentInfoProject.Common/"]
 WORKDIR "/src/Caltec.StudentInfoProject.WebUi"
 RUN dotnet build "./Caltec.StudentInfoProject.WebUi.csproj" \
     -c "$BUILD_CONFIGURATION" \
     -o /app/build
 
-# Cette étape permet de publier le projet de service à copier dans la phase finale
+# Publish stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Caltec.StudentInfoProject.WebUi.csproj" \
@@ -30,8 +36,9 @@ RUN dotnet publish "./Caltec.StudentInfoProject.WebUi.csproj" \
     -o /app/publish \
     /p:UseAppHost=false
 
-# Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
+# Final image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+USER appuser
 ENTRYPOINT ["dotnet", "Caltec.StudentInfoProject.WebUi.dll"]

@@ -1,20 +1,18 @@
-﻿using Caltec.StudentInfoProject.Domain;
+using Caltec.StudentInfoProject.Domain;
+using System.Security.Cryptography;
 
 namespace Caltec.StudentInfoProject.Persistence.Initializer
 {
     public static class DbInitializer
     {
-
         private static readonly int _nbStudents = 1000;
         private static readonly int _nbDegrees = 20;
         private static readonly int _studentPerClasses = 25;
-                
-        private static readonly Random random = new Random();
 
         public static void Initialize(StudentInfoDbContext context)
         {
             context.Database.EnsureCreated();
-                       
+
             var degrees = CreateDegrees(_nbDegrees);
             var students = CreateStudents(_nbStudents);
             var classes = CreateClassesAndFees(_studentPerClasses, students, degrees);
@@ -28,40 +26,39 @@ namespace Caltec.StudentInfoProject.Persistence.Initializer
         {
             List<Degree> degrees = new List<Degree>();
 
-
             for (int i = 0; i < nbDegree; i++)
-                        {
+            {
                 degrees.Add(new Degree()
                 {
-                    Name = MockingData.Degrees[random.Next(0, MockingData.Degrees.Count - 1)] + i.ToString(),
-                    NbYear = random.Next(1, 5),
-                    FeesPerYearPerStudent = random.Next(1000, 10000),
-                    NbPayment = random.Next(1, 12)
+                    Name = MockingData.Degrees[NextInt(0, MockingData.Degrees.Count)] + i.ToString(),
+                    NbYear = NextInt(1, 5),
+                    FeesPerYearPerStudent = NextInt(1000, 10000),
+                    NbPayment = NextInt(1, 12)
                 });
             }
 
             return degrees;
         }
+
         private static List<Student> CreateStudents(int nbStudent)
         {
             List<Student> students = new List<Student>();
 
             for (int i = 0; i < nbStudent; i++)
             {
-                var FirstName = MockingData.FirstNames[random.Next(0, MockingData.FirstNames.Count - 1)];
-                var LastName = MockingData.LastNames[random.Next(0, MockingData.LastNames.Count - 1)];
-                var email = $" {FirstName.Replace(" ", string.Empty)}.{LastName.Replace(" ", string.Empty)}@caltech.com";
+                var firstName = MockingData.FirstNames[NextInt(0, MockingData.FirstNames.Count)];
+                var lastName = MockingData.LastNames[NextInt(0, MockingData.LastNames.Count)];
+                var email = $" {firstName.Replace(" ", string.Empty)}.{lastName.Replace(" ", string.Empty)}@caltech.com";
                 students.Add(new Student()
                 {
-                    FirstName = FirstName,
-                    LastName = LastName,
+                    FirstName = firstName,
+                    LastName = lastName,
                     Email = email,
-                    Phone = MockingData.Phones[random.Next(0, MockingData.Phones.Count - 1)],
-                    Address = MockingData.Addresses[random.Next(0, MockingData.Addresses.Count - 1)],
-                    City = MockingData.Cities[random.Next(0, MockingData.Cities.Count - 1)],
-                    Country = MockingData.Countries[random.Next(0, MockingData.Countries.Count - 1)]
+                    Phone = MockingData.Phones[NextInt(0, MockingData.Phones.Count)],
+                    Address = MockingData.Addresses[NextInt(0, MockingData.Addresses.Count)],
+                    City = MockingData.Cities[NextInt(0, MockingData.Cities.Count)],
+                    Country = MockingData.Countries[NextInt(0, MockingData.Countries.Count)]
                 });
-            
             }
 
             return students;
@@ -72,12 +69,12 @@ namespace Caltec.StudentInfoProject.Persistence.Initializer
             List<StudentClass> classes = new List<StudentClass>();
 
             int countStudentPerClass = 0;
-            int ClassCount = 0;
-            Degree currentDegree = degrees[random.Next(0, degrees.Count - 1)];
+            int classCount = 0;
+            Degree currentDegree = degrees[NextInt(0, degrees.Count)];
             var currentClass = new StudentClass()
             {
-                Degree = degrees[random.Next(0, degrees.Count - 1)],
-                Name = $"Class {currentDegree.Name} {ClassCount}",
+                Degree = degrees[NextInt(0, degrees.Count)],
+                Name = $"Class {currentDegree.Name} {classCount}",
             };
             foreach (var s in students)
             {
@@ -90,22 +87,22 @@ namespace Caltec.StudentInfoProject.Persistence.Initializer
                         Class = currentClass,
                         Amount = currentDegree.FeesPerYearPerStudent / currentDegree.NbPayment,
                         PaymentDate = DateTime.Now.AddMonths(i),
-                        PaymentMethod = MockingData.PaymentMethods[random.Next(0, MockingData.PaymentMethods.Count - 1)],
+                        PaymentMethod = MockingData.PaymentMethods[NextInt(0, MockingData.PaymentMethods.Count)],
                         PaymentReference = "Ref" + i.ToString(),
                         PaymentNote = "Note" + i.ToString(),
-                        PaymentStatus = MockingData.PaymentStatus[random.Next(0, MockingData.PaymentStatus.Count - 1)]
+                        PaymentStatus = MockingData.PaymentStatus[NextInt(0, MockingData.PaymentStatus.Count)]
                     });
                 }
-                
+
                 if (countStudentPerClass == nbStudentPerClass)
                 {
                     classes.Add(currentClass);
                     countStudentPerClass = 0;
-                    ClassCount++; 
+                    classCount++;
                     currentClass = new StudentClass()
                     {
-                        Degree = degrees[random.Next(0, degrees.Count - 1)],
-                        Name = $"Class {currentDegree.Name} {ClassCount}",
+                        Degree = degrees[NextInt(0, degrees.Count)],
+                        Name = $"Class {currentDegree.Name} {classCount}",
                     };
                 }
 
@@ -113,6 +110,11 @@ namespace Caltec.StudentInfoProject.Persistence.Initializer
             }
 
             return classes;
+        }
+
+        private static int NextInt(int minValue, int maxValue)
+        {
+            return RandomNumberGenerator.GetInt32(minValue, maxValue);
         }
     }
 }

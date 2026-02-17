@@ -14,26 +14,7 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Degree.Name" for="Degree_Name" class="control-label"></label>
-                <input asp-for="Degree.Name" class="form-control" />
-                <span asp-validation-for="Degree.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Degree.NbYear" for="Degree_NbYear" class="control-label"></label>
-                <input asp-for="Degree.NbYear" class="form-control" />
-                <span asp-validation-for="Degree.NbYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Degree.FeesPerYearPerStudent" for="Degree_FeesPerYearPerStudent" class="control-label"></label>
-                <input asp-for="Degree.FeesPerYearPerStudent" class="form-control" />
-                <span asp-validation-for="Degree.FeesPerYearPerStudent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Degree.NbPayment" for="Degree_NbPayment" class="control-label"></label>
-                <input asp-for="Degree.NbPayment" class="form-control" />
-                <span asp-validation-for="Degree.NbPayment" class="text-danger"></span>
-            </div>
+            <partial name="~/Pages/Shared/_DegreeFormFields.cshtml" for="Degree" />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

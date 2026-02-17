@@ -1,0 +1,48 @@
+@model Caltec.StudentInfoProject.Business.Dto.SchoolFeesDto
+@{
+    var paymentMethods = (IEnumerable<string>?)ViewData["PaymentMethodsList"] ?? Enumerable.Empty<string>();
+    var paymentStatuses = (IEnumerable<string>?)ViewData["PaymentStatusList"] ?? Enumerable.Empty<string>();
+    var studentClasses = (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>?)ViewData["StudentClasses"] ?? Enumerable.Empty<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+}
+
+<div class="form-group">
+    <label asp-for="Amount" for="SchoolFees_Amount" class="control-label"></label>
+    <input asp-for="Amount" class="form-control" />
+    <span asp-validation-for="Amount" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PaymentDate" for="SchoolFees_PaymentDate" class="control-label"></label>
+    <input asp-for="PaymentDate" class="form-control" />
+    <span asp-validation-for="PaymentDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PaymentMethod" for="SchoolFees_PaymentMethod" class="control-label"></label>
+    <select id="SchoolFees_PaymentMethod" class="form-control" asp-for="PaymentMethod" asp-items="@(new SelectList(paymentMethods))">
+        <option value="">--Select--</option>
+    </select>
+    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PaymentReference" for="SchoolFees_PaymentReference" class="control-label"></label>
+    <input asp-for="PaymentReference" class="form-control" />
+    <span asp-validation-for="PaymentReference" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PaymentStatus" for="SchoolFees_PaymentStatus" class="control-label"></label>
+    <select id="SchoolFees_PaymentStatus" class="form-control" asp-for="PaymentStatus" asp-items="@(new SelectList(paymentStatuses))">
+        <option value="">--Select--</option>
+    </select>
+    <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PaymentNote" for="SchoolFees_PaymentNote" class="control-label"></label>
+    <input asp-for="PaymentNote" class="form-control" />
+    <span asp-validation-for="PaymentNote" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ClassId" for="SchoolFees_ClassId" class="control-label"></label>
+    <select id="SchoolFees_ClassId" class="form-control" asp-for="ClassId" asp-items="@(new SelectList(studentClasses, "Value", "Text"))">
+        <option value="">--Select--</option>
+    </select>
+    <input type="hidden" asp-for="ClassId" />
+</div>

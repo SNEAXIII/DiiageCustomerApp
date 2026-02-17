@@ -4,75 +4,13 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["PaymentMethodsList"] = Model.PaymentMethodsList;
+    ViewData["PaymentStatusList"] = Model.PaymentStatusList;
+    ViewData["StudentClasses"] = Model.StudentClasses;
+    ViewData["PageTitle"] = "Edit School Fee";
+    ViewData["PageAction"] = "Edit";
+    ViewData["SubmitLabel"] = "Edit";
+    ViewData["IsEdit"] = true;
 }
 
-
-<h1>Edit School Fee</h1>
-
-<hr />
-<p>
-    Edit School Fees for @Model.Student.FirstName @Model.Student.LastName
-</p>
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SchoolFees.Amount" for="SchoolFees_Amount" class="control-label"></label>
-                <input asp-for="SchoolFees.Amount" class="form-control" />
-                <span asp-validation-for="SchoolFees.Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SchoolFees.PaymentDate" for="SchoolFees_PaymentDate" class="control-label"></label>
-                <input asp-for="SchoolFees.PaymentDate" class="form-control" />
-                <span asp-validation-for="SchoolFees.PaymentDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="form-group">
-                    <label asp-for="SchoolFees.PaymentMethod" for="SchoolFees_PaymentMethod" class="control-label"></label>
-                    <select id="SchoolFees_PaymentMethod" class="form-control" asp-for="SchoolFees.PaymentMethod" asp-items="@(new SelectList(Model.PaymentMethodsList))">
-                        <option value="">--Select--</option>
-                    </select>
-
-                </div>
-                <span asp-validation-for="SchoolFees.PaymentMethod" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SchoolFees.PaymentReference" for="SchoolFees_PaymentReference" class="control-label"></label>
-                <input asp-for="SchoolFees.PaymentReference" class="form-control" />
-                <span asp-validation-for="SchoolFees.PaymentReference" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="form-group">
-                    <label asp-for="SchoolFees.PaymentStatus" for="SchoolFees_PaymentStatus" class="control-label"></label>
-                    <select id="SchoolFees_PaymentStatus" class="form-control" asp-for="SchoolFees.PaymentStatus" asp-items="@(new SelectList(Model.PaymentStatusList))">
-                        <option value="">--Select--</option>
-                    </select>
-
-                </div>
-                <span asp-validation-for="SchoolFees.PaymentStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SchoolFees.PaymentNote" for="SchoolFees_PaymentNote" class="control-label"></label>
-                <input asp-for="SchoolFees.PaymentNote" class="form-control" />
-                <span asp-validation-for="SchoolFees.PaymentNote" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SchoolFees.ClassId" for="SchoolFees_ClassId" class="control-label"></label>
-                <select id="SchoolFees_ClassId" class="form-control" asp-for="SchoolFees.ClassId" asp-items="@(new SelectList(Model.StudentClasses, "Value", "Text"))">
-                    <option value="">--Select--</option>
-                </select>
-                <input type="hidden" asp-for="SchoolFees.ClassId" />
-                <input type="hidden" asp-for="SchoolFees.Id" />
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-page="/Students/Details" asp-route-id="@Model.Student.Id">Back to Student details</a>
-</div>
+<partial name="~/Pages/Shared/_SchoolFeesFormPage.cshtml" model="Model" />
