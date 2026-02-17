@@ -20,7 +20,6 @@
                 <select id="Student_ClassId" class="form-control" asp-for="Student.ClassId" asp-items="@(new SelectList(Model.StudentClasses, "Value", "Text"))">
                     <option value="">--Select--</option>
                 </select>
-                <input type="hidden" asp-for="Student.ClassId" />
             </div>
             <input type="hidden" asp-for="Student.Id" />
             <div class="form-group">

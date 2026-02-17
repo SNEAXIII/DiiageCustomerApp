@@ -11,8 +11,8 @@
 <div>
     <h4>Student</h4>
     <hr />
+    <partial name="~/Pages/Shared/_StudentDetailsRows.cshtml" for="Student" />
     <dl class="row">
-        <partial name="~/Pages/Shared/_StudentDetailsRows.cshtml" for="Student" />
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Student.ClassName)
         </dt>
@@ -20,13 +20,13 @@
             @Html.DisplayFor(model => model.Student.ClassName)
         </dd>
     </dl>
-    <dl class="row">
+    <div class="row">
         <h2>Schools Fees</h2>
         <p>
             <a asp-page="./SchoolFees/Create" asp-route-id="@Model.Student.Id">Create New School fees</a>
         </p>
-    </dl>
-    <dl class="row">
+    </div>
+    <div class="row">
         <table class="table">
             <thead>
                 <tr>
@@ -96,7 +96,7 @@
             </tbody>
         </table>
 
-    </dl>
+    </div>
 </div>
 
 <div>
