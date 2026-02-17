@@ -42,9 +42,9 @@ namespace Caltec.StudentInfoProject.Business
 
             foreach (var student in result)
             {
-                student.SumOfFees = StudentInfoDbContext.SchoolFees
+                student.SumOfFees = await StudentInfoDbContext.SchoolFees
                     .Where(x => x.Student != null && x.Student.Id == student.Id)
-                    .Sum(x => x.Amount);
+                    .SumAsync(x => x.Amount, cancellationToken);
             }
 
             return result;
@@ -158,9 +158,12 @@ namespace Caltec.StudentInfoProject.Business
                 throw new NotFoundException("Student not found");
             }
 
-            StudentInfoDbContext.Students.RemoveRange(StudentInfoDbContext.Students.ToList());
-            StudentInfoDbContext.StudentClasses.RemoveRange(StudentInfoDbContext.StudentClasses.ToList());
-            StudentInfoDbContext.SchoolFees.RemoveRange(StudentInfoDbContext.SchoolFees.ToList());
+            var students = await StudentInfoDbContext.Students.ToListAsync(cancellationToken);
+            var studentClasses = await StudentInfoDbContext.StudentClasses.ToListAsync(cancellationToken);
+            var schoolFees = await StudentInfoDbContext.SchoolFees.ToListAsync(cancellationToken);
+            StudentInfoDbContext.Students.RemoveRange(students);
+            StudentInfoDbContext.StudentClasses.RemoveRange(studentClasses);
+            StudentInfoDbContext.SchoolFees.RemoveRange(schoolFees);
             await StudentInfoDbContext.SaveChangesAsync(cancellationToken);
         }
     }

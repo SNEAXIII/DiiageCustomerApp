@@ -18,19 +18,19 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SchoolFees.Amount" class="control-label"></label>
+                <label asp-for="SchoolFees.Amount" for="SchoolFees_Amount" class="control-label"></label>
                 <input asp-for="SchoolFees.Amount" class="form-control" />
                 <span asp-validation-for="SchoolFees.Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SchoolFees.PaymentDate" class="control-label"></label>
+                <label asp-for="SchoolFees.PaymentDate" for="SchoolFees_PaymentDate" class="control-label"></label>
                 <input asp-for="SchoolFees.PaymentDate" class="form-control" />
                 <span asp-validation-for="SchoolFees.PaymentDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="form-group">
-                    <label asp-for="SchoolFees.PaymentMethod" class="control-label"></label>
-                    <select id="drpEmpListMethod" class="form-control" asp-for="SchoolFees.PaymentMethod" asp-items="@(new SelectList(Model.PaymentMethodsList))">
+                    <label asp-for="SchoolFees.PaymentMethod" for="SchoolFees_PaymentMethod" class="control-label"></label>
+                    <select id="SchoolFees_PaymentMethod" class="form-control" asp-for="SchoolFees.PaymentMethod" asp-items="@(new SelectList(Model.PaymentMethodsList))">
                         <option value="">--Select--</option>
                     </select>
 
@@ -38,14 +38,14 @@
                 <span asp-validation-for="SchoolFees.PaymentMethod" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SchoolFees.PaymentReference" class="control-label"></label>
+                <label asp-for="SchoolFees.PaymentReference" for="SchoolFees_PaymentReference" class="control-label"></label>
                 <input asp-for="SchoolFees.PaymentReference" class="form-control" />
                 <span asp-validation-for="SchoolFees.PaymentReference" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="form-group">
-                    <label asp-for="SchoolFees.PaymentStatus" class="control-label"></label>
-                    <select id="drpEmpListStatus" class="form-control" asp-for="SchoolFees.PaymentStatus" asp-items="@(new SelectList(Model.PaymentStatusList))">
+                    <label asp-for="SchoolFees.PaymentStatus" for="SchoolFees_PaymentStatus" class="control-label"></label>
+                    <select id="SchoolFees_PaymentStatus" class="form-control" asp-for="SchoolFees.PaymentStatus" asp-items="@(new SelectList(Model.PaymentStatusList))">
                         <option value="">--Select--</option>
                     </select>
 
@@ -53,13 +53,13 @@
                 <span asp-validation-for="SchoolFees.PaymentStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SchoolFees.PaymentNote" class="control-label"></label>
+                <label asp-for="SchoolFees.PaymentNote" for="SchoolFees_PaymentNote" class="control-label"></label>
                 <input asp-for="SchoolFees.PaymentNote" class="form-control" />
                 <span asp-validation-for="SchoolFees.PaymentNote" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SchoolFees.ClassName" class="control-label"></label>
-                <select id="drpEmpListClass" class="form-control" asp-for="SchoolFees.ClassId" asp-items="@(new SelectList(Model.StudentClasses, "Value", "Text"))">
+                <label asp-for="SchoolFees.ClassId" for="SchoolFees_ClassId" class="control-label"></label>
+                <select id="SchoolFees_ClassId" class="form-control" asp-for="SchoolFees.ClassId" asp-items="@(new SelectList(Model.StudentClasses, "Value", "Text"))">
                     <option value="">--Select--</option>
                 </select>
                 <input type="hidden" asp-for="SchoolFees.ClassId" />

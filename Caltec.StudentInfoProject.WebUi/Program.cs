@@ -52,7 +52,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCaltechDependency();
-app.Run();
+await app.RunAsync();
 
 
 static void CreateDbIfNotExists(WebApplication host)

@@ -18,11 +18,6 @@ namespace Caltec.StudentInfoProject.Persistence
         public DbSet<StudentClass> StudentClasses { get; set; } = null!;
         public DbSet<SchoolFees> SchoolFees { get; set; } = null!;
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Conventions are sufficient for this sample model; no explicit mapping is required.
-            base.OnModelCreating(modelBuilder);
-        }
     }
    
 }

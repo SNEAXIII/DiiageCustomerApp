@@ -15,53 +15,53 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Student.FirstName" class="control-label"></label>
+                <label asp-for="Student.FirstName" for="Student_FirstName" class="control-label"></label>
                 <input asp-for="Student.FirstName" class="form-control" />
                 <span asp-validation-for="Student.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.LastName" class="control-label"></label>
+                <label asp-for="Student.LastName" for="Student_LastName" class="control-label"></label>
                 <input asp-for="Student.LastName" class="form-control" />
                 <span asp-validation-for="Student.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.Email" class="control-label"></label>
+                <label asp-for="Student.Email" for="Student_Email" class="control-label"></label>
                 <input asp-for="Student.Email" class="form-control" />
                 <span asp-validation-for="Student.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.Phone" class="control-label"></label>
+                <label asp-for="Student.Phone" for="Student_Phone" class="control-label"></label>
                 <input asp-for="Student.Phone" class="form-control" />
                 <span asp-validation-for="Student.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.Address" class="control-label"></label>
+                <label asp-for="Student.Address" for="Student_Address" class="control-label"></label>
                 <input asp-for="Student.Address" class="form-control" />
                 <span asp-validation-for="Student.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.City" class="control-label"></label>
+                <label asp-for="Student.City" for="Student_City" class="control-label"></label>
                 <input asp-for="Student.City" class="form-control" />
                 <span asp-validation-for="Student.City" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.State" class="control-label"></label>
+                <label asp-for="Student.State" for="Student_State" class="control-label"></label>
                 <input asp-for="Student.State" class="form-control" />
                 <span asp-validation-for="Student.State" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.Zip" class="control-label"></label>
+                <label asp-for="Student.Zip" for="Student_Zip" class="control-label"></label>
                 <input asp-for="Student.Zip" class="form-control" />
                 <span asp-validation-for="Student.Zip" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.Country" class="control-label"></label>
+                <label asp-for="Student.Country" for="Student_Country" class="control-label"></label>
                 <input asp-for="Student.Country" class="form-control" />
                 <span asp-validation-for="Student.Country" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Student.ClassName" class="control-label"></label>
-                <select id="drpEmpList" class="form-control" asp-for="Student.ClassId" asp-items="@(new SelectList(Model.StudentClasses, "Value", "Text"))">
+                <label asp-for="Student.ClassId" for="Student_ClassId" class="control-label"></label>
+                <select id="Student_ClassId" class="form-control" asp-for="Student.ClassId" asp-items="@(new SelectList(Model.StudentClasses, "Value", "Text"))">
                     <option value="">--Select--</option>
                 </select>
                 <input type="hidden" asp-for="Student.ClassId" />
